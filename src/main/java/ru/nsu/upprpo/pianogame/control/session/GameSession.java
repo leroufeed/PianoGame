@@ -6,7 +6,6 @@ import ru.nsu.upprpo.pianogame.control.Controller;
 import ru.nsu.upprpo.pianogame.control.ControllerSession;
 import ru.nsu.upprpo.pianogame.control.exception.ControllerException;
 import ru.nsu.upprpo.pianogame.control.exception.GameAlreadyStartedException;
-import ru.nsu.upprpo.pianogame.view.game.*;
 import ru.nsu.upprpo.pianogame.event.EventHandler;
 import ru.nsu.upprpo.pianogame.model.game.level.TileLinesGame;
 import ru.nsu.upprpo.pianogame.model.game.level.line.tile.Tile;
@@ -112,8 +111,8 @@ public class GameSession extends ControllerSession {
             if (graphicTask != null) {
                 graphicTask.cancel();
             }
-            graphicTask = new GraphicUpdaterTask();
-            timer.schedule(graphicTask, 0, game.timeToShow() / 4_000_000);
+            graphicTask = new GraphicUpdaterTask(game.timeToShow() / 4_000_000);
+            timer.schedule(graphicTask, 0, 20);
         }
     }
 
@@ -143,28 +142,48 @@ public class GameSession extends ControllerSession {
 
     private class GraphicUpdaterTask extends TimerTask {
 
+        private final long fullUpdateTime;
+
+        private long lastFullUpdate;
+
+        public GraphicUpdaterTask(long fullUpdateTime) {
+            lastFullUpdate = System.nanoTime() - fullUpdateTime;
+            this.fullUpdateTime = fullUpdateTime;
+        }
+
         @Override
         public void run() {
             long nTime = System.nanoTime();
             if (game.isOutOfTime(nTime)) {
                 gameEnd();
             }
+            if (System.nanoTime() - lastFullUpdate > fullUpdateTime) {
+                fullUpdate(nTime);
+                lastFullUpdate = System.nanoTime();
+            }
             long time = game.toLocalTime(nTime);
-            long endTime = time + game.timeToShow() * 2;
             ClickType[] types = game.availableClickTypes();
-            DrawnInfo[][] tiles = new DrawnInfo[types.length][];
             LineStatus[] status = new LineStatus[types.length];
             for (int i = 0; i < types.length; i++) {
-                tiles[i] = game.getLine(types[i]).getTiles(time, endTime).stream().map(InfoAdapter::new).toArray(InfoAdapter[]::new);
                 status[i] = switch (game.getLastStatus(types[i], time)) {
-
                     case GOOD_CLICKED -> LineStatus.GOOD_CLICK;
                     case GOOD_PRESSED -> LineStatus.GOOD_HOLD;
                     case MISSED_TILE -> LineStatus.NO_CLICK;
                     case NOTHING -> LineStatus.NOTHING;
                 };
             }
-            gameView.updateView(tiles, status);
+            gameView.updateStatus(status);
+        }
+
+
+        public void fullUpdate(long nTime) {
+            long time = game.toLocalTime(nTime);
+            long endTime = time + game.timeToShow() * 2;
+            ClickType[] types = game.availableClickTypes();
+            DrawnInfo[][] tiles = new DrawnInfo[types.length][];
+            for (int i = 0; i < types.length; i++)
+                tiles[i] = game.getLine(types[i]).getTiles(time, endTime).stream().map(InfoAdapter::new).toArray(InfoAdapter[]::new);
+            gameView.updateView(tiles);
         }
 
     }

@@ -61,9 +61,14 @@ public class GameCanvas extends Canvas {
         this.setHeight(height);
     }
 
-    public void updateTiles(DrawnInfo[][] nTiles, LineStatus[] status) {
+    public void updateTiles(DrawnInfo[][] nTiles) {
         synchronized (this) {
             this.tiles = nTiles;
+        }
+    }
+
+    public void updateStatus(LineStatus[] status) {
+        synchronized (this) {
             this.lineStatus = status;
         }
     }
