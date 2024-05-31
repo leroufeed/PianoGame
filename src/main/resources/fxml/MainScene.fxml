@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<StackPane
+        onKeyPressed="#onKeyPress"
+        onKeyReleased="#onKeyRelease"
+        xmlns="http://javafx.com/javafx/17.0.2-ea"
+        xmlns:fx="http://javafx.com/fxml/1"
+        minHeight="600"
+        minWidth="800"
+        fx:controller="ru.nsu.upprpo.pianogame.view.menu.MenuAppScene"
+        fx:id="root">
+    <VBox alignment="CENTER">
+        <Button minHeight="30.0" minWidth="100.0" onAction="#startAction" text="Start game"/>
+        <Button minHeight="30.0" minWidth="100.0" onAction="#scoreAction" text="Score"/>
+        <Button minHeight="30.0" minWidth="100.0" onAction="#exitAction" text="Exit"/>
+    </VBox>
+</StackPane>

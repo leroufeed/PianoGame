@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           minHeight="600"
+           minWidth="800"
+           fx:controller="ru.nsu.upprpo.pianogame.view.choice.GameChoiceAppScene"
+           fx:id="root">
+    <GridPane maxHeight="Infinity" maxWidth="Infinity">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="35"/>
+            <ColumnConstraints percentWidth="30"/>
+            <ColumnConstraints percentWidth="35"/>
+        </columnConstraints>
+        <ScrollPane
+                StackPane.alignment="CENTER"
+                GridPane.hgrow="always"
+                GridPane.vgrow="always"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="1">
+            <VBox fx:id="scrollBox">
+            </VBox>
+        </ScrollPane>
+        <StackPane
+                StackPane.alignment="CENTER"
+                GridPane.hgrow="always"
+                GridPane.vgrow="always"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="2">
+            <VBox>
+                <Button onAction="#pressMenu" text="menu "/>
+            </VBox>
+        </StackPane>
+    </GridPane>
+
+</StackPane>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import ru.nsu.upprpo.pianogame.view.game.component.GameCanvas?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.Rectangle?>
+<StackPane
+        onKeyPressed="#onKeyPress"
+        onKeyReleased="#onKeyRelease"
+        xmlns="http://javafx.com/javafx/17.0.2-ea"
+        xmlns:fx="http://javafx.com/fxml/1"
+        minHeight="600"
+        minWidth="800"
+        fx:controller="ru.nsu.upprpo.pianogame.view.game.GameAppScene"
+        fx:id="root">
+    <GridPane alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="35"/>
+            <ColumnConstraints percentWidth="30"/>
+            <ColumnConstraints percentWidth="35"/>
+        </columnConstraints>
+        <StackPane
+                fx:id="leftStackPane"
+                StackPane.alignment="CENTER"
+                GridPane.hgrow="always"
+                GridPane.vgrow="always"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="0">
+            <ImageView fx:id="leftBackground" managed="false" StackPane.alignment="CENTER"
+                       fitHeight="${leftStackPane.height}"
+                       fitWidth="${leftStackPane.width}"/>
+        </StackPane>
+        <StackPane
+                fx:id="centerStackPane"
+                StackPane.alignment="CENTER"
+                GridPane.hgrow="always"
+                GridPane.vgrow="always"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="1">
+            <ImageView fx:id="centerBackground" managed="false" StackPane.alignment="CENTER"
+                       fitHeight="${centerStackPane.height}"
+                       fitWidth="${centerStackPane.width}"/>
+            <GameCanvas fx:id="gameField" pickOnBounds="true"/>
+        </StackPane>
+        <StackPane
+                fx:id="rightStackPane"
+                StackPane.alignment="CENTER"
+                GridPane.hgrow="always"
+                GridPane.vgrow="always"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="2">
+            <ImageView fx:id="rightBackground" managed="false" StackPane.alignment="CENTER"
+                       fitHeight="${rightStackPane.height}"
+                       fitWidth="${rightStackPane.width}"/>
+            <VBox GridPane.hgrow="always"
+                  GridPane.vgrow="always"
+                  GridPane.rowIndex="0"
+                  GridPane.columnIndex="2">
+                <Button onAction="#pressExit" text="exit"/>
+                <Button onAction="#pressPause" text="pause"/>
+                <Button onAction="#pressResume" text="resume"/>
+            </VBox>
+        </StackPane>
+    </GridPane>
+    <StackPane fx:id="scorePane"
+               visible="false"
+               StackPane.alignment="CENTER"
+               prefHeight="${centerStackPane.height}"
+               prefWidth="${centerStackPane.width}">
+        <Rectangle
+                blendMode="HARD_LIGHT"
+                StackPane.alignment="CENTER"
+                stroke="bisque" fill="darkorchid"/>
+        <VBox StackPane.alignment="CENTER">
+            <Label fx:id="score" blendMode="HARD_LIGHT" textFill="chartreuse">
+                <font>
+                    <Font name="System Bold" size="20.0"/>
+                </font>
+            </Label>
+            <Button fx:id="menuButton"
+                    disable="true"
+                    onAction="#toMenu"
+                    text="menu"/>
+        </VBox>
+    </StackPane>
+</StackPane>
